@@ -1,3 +1,27 @@
-*{
-    color:red;
+.header-shop{
+    background-color: #563d7c;
+}
+.oi.oi-cart{
+color: white;
+}
+.icon-fb:hover{
+    color:white;
+    text-decoration: none;
+}
+.icon-fb{
+    font-size: 20px;
+    color: black;
+    background-color: #82938b;
+    text-align: center;
+    width:30px;
+    line-height: 1;
+    border-radius:4px;
+    margin:4px;
+    display: inline-block;
+    padding: 5px;
+}
+.icon-cart,
+.icon-user{
+    font-size: 25px;
+    color: #ccc;
 }
