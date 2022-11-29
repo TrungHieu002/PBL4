@@ -15,17 +15,13 @@
       <span class="oi oi-cart mr-sm-2 icon-cart">
         <h4 class="d-inline-block">(10)</h4>
       </span>
-      <span class="oi oi-person icon-user"> user</span>
+      {{{loginable _isLoginForm}}}
     </div>
     <div class="btn-login-group">
-      <button type="button" data-toggle="modal" data-target="#loginModal" data-whatever="@login"
-        class="btn btn-outline-warning">ĐĂNG NHẬP</button>
-      <button type="button" data-toggle="modal" data-target="#registerModal" data-whatever="@register"
-        class="btn btn-outline-danger">ĐĂNG KÝ</button>
+      {{{loginHide _isLoginForm}}}
     </div>
   </div>
 </nav>
-
 
 {{!-- Modal Login --}}
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -41,17 +37,22 @@
         <div class="form-title text-center">
           <h4>ĐĂNG NHẬP</h4>
         </div>
+        {{#each error}}
+        <h1>{{this}}</h1>
+        {{/each}}
         <div class="d-flex flex-column">
-          <form>
+          <form action="/login/checked" method="post">
             <div class="form-group">
               <label for="email1" style="font-size: 20px;">Tài Khoản</label>
-              <input type="email" class="form-control" id="email1" placeholder="Tên người dùng...">
+              <input type="text" class="form-control" id="email1" placeholder="Tên người dùng..." name="username"
+                required>
             </div>
             <div class="form-group">
               <label for="password1" style="font-size: 20px;">Mật khẩu</label>
-              <input type="password" class="form-control" id="password1" placeholder="Mật khẩu...">
+              <input type="password" class="form-control" id="password1" placeholder="Mật khẩu..." name="password"
+                required>
             </div>
-            <button type="button" class="btn btn-info btn-block btn-round">Đăng Nhập</button>
+            <input type="submit" class="btn btn-info btn-block btn-round" value="ĐĂNG NHẬP">
           </form>
         </div>
       </div>
@@ -68,7 +69,6 @@
           title="Linkedin">
           <i class="ti-email"></i>
         </button>
-        </di>
       </div>
     </div>
   </div>
@@ -116,12 +116,30 @@
     </div>
   </div>
 </div>
+  <script>
+    $(document).ready(function () {
+      $('#loginModal').modal('show');
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    });
+  </script>
 
-<script>
-  $(document).ready(function () {
-    $('#loginModal').modal('show');
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
+  {{#each error}}
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelector('body').classList.add('modal-open');
+      document.querySelector('.modal.fade').classList.add('show');
+      document.querySelector('.modal.fade').removeAttribute('aria-hidden');
+      document.querySelector('.modal.fade').style.display = 'block';
+      document.querySelector('.modal.fade').style.paddingRight = '17px';
     })
-  });
-</script>
+    document.querySelector('.close').onclick = function(){
+      document.querySelector('body').classList.remove('modal-open');
+      document.querySelector('.modal.fade').classList.remove('show');
+      document.querySelector('.modal.fade').setAttribute("aria-hidden", "true");
+      document.querySelector('.modal.fade').style.display = 'none';
+    }
+  </script>
+  {{/each}}
+
