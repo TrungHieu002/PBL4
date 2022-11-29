@@ -65,3 +65,52 @@ color: white;
     padding: 0.3rem 0rem;
   }
   //End login modal
+<<<<<<< HEAD
+=======
+
+//Begin register modal
+.modal-second {
+  z-index: 1052;
+}
+
+.modal-backdrop.fade {
+  & + .modal-backdrop.fade {
+    z-index: 1051;
+  }
+}
+//end register modal
+
+  // Begin footer
+  h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+section {
+    padding: 8rem 0 1rem 0;
+  }
+  p{
+      font-weight: 600;
+  }
+ .col-lg-8 hr {
+    max-width: 150px;
+    border-width: 3px;
+    border-color: rgb(30, 31, 92);
+  }
+  footer {
+    padding: 25px 0;
+    text-align: center;
+  }
+  
+  footer p {
+    font-size: 13px;
+    margin: 0;
+  }
+  
+
+  // End Footer
+>>>>>>> hieu
