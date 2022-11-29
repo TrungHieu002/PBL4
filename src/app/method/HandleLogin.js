@@ -1,28 +1,28 @@
 const InforUserModel = require('../models/InforUserModels');
 const bcrypt = require('bcrypt');
-let handleUserLogin = (username, password) => {
+let handleUserLogin = (email, password) => {
     return new Promise(async (resolve, reject) => {
         let userData = {};
         try {
-            let isExist = await checkUserEmail(username);
+            let isExist = await checkUserEmail(email);
             if (isExist) {
-                InforUserModel.findOne({ username: username })
+                InforUserModel.findOne({ email: email })
                     .then(user => {
                         if (user) {
                             let check = bcrypt.compareSync(password, user.password);
-                            if (check){
+                            if (check) {
                                 userData.errCode = 0;
                                 userData.errMessage = '';
                                 delete user._doc.password;
                                 userData.user = user;
-                            }else{
+                            } else {
                                 userData.errCode = 3;
-                                userData.errMessage = 'Sai mat khau';
+                                userData.errMessage = 'Sai mật khẩu';
                             }
                             resolve(userData);
                         } else {
                             userData.errCode = 2;
-                            userData.errMessage = `Khong tim thay user`;
+                            userData.errMessage = `Không tìm thấy account`;
                             resolve(userData);
                         }
                     })
@@ -38,10 +38,10 @@ let handleUserLogin = (username, password) => {
     })
 }
 
-let checkUserEmail = (username) => {
+let checkUserEmail = (email) => {
     return new Promise((resolve, reject) => {
         try {
-            InforUserModel.findOne({ username: username })
+            InforUserModel.findOne({ email: email })
                 .then(user => {
                     if (!user) {
                         resolve(false);
@@ -55,6 +55,26 @@ let checkUserEmail = (username) => {
     })
 }
 
+checkExistEmail = (email) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let userData = {};
+            let isExist = await checkUserEmail(email);
+            if (isExist) {
+                userData.errCode = 4;
+                userData.errMessage = 'Email đã được sử dụng';
+            } else {
+                userData.errCode = 0;
+                userData.errMessage = '';
+            }
+            resolve(userData);
+        } catch (error) {
+            reject(err);
+        }
+    })
+}
+
 module.exports = {
-    handleUserLogin: handleUserLogin
+    handleUserLogin: handleUserLogin,
+    checkExistEmail: checkExistEmail
 }

@@ -15,3 +15,5 @@ npm i rand-token
 npm i jsonwebtoken
 npm i bcrypt
 npm i express-session
+---29/11---
+npm i dotenv

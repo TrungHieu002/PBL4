@@ -1,13 +1,16 @@
 const handleLogin = require('../method/handleLogin');
+const inforUserModel = require('../models/InforUserModels');
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10;
+const InforUserModels = require('../models/InforUserModels');
 
 let checkedLogin = async (req, res) => {
-    let username = req.body.username;
+    let email = req.body.email.toLowerCase();
     let password = req.body.password;
-
-    let userData = await handleLogin.handleUserLogin(username, password);
+    let userData = await handleLogin.handleUserLogin(email, password);
     if (userData.errCode !== 0) {
         res.render('home', {
-            error: [
+            errorLogin: [
                 userData.errMessage
             ]
         })
@@ -15,21 +18,57 @@ let checkedLogin = async (req, res) => {
         req.session.user =
         {
             name: userData.user.name,
-            username: userData.user.username,
             phone: userData.user.phone,
             address: userData.user.address,
-            email : userData.user.email
+            email: userData.user.email
         }
-        res.redirect(`/`);
+        if(userData.user.role === 'user') res.redirect(`/`);
+        else res.redirect(`/admin`);
     }
 }
 
-let logout = function(req, res){
+let logout = function (req, res) {
     req.session.destroy();
     res.redirect(`/`);
 }
 
+let register = async (req, res) => {
+    const email = req.body.email.toLowerCase();
+    req.body.email = email;
+    let userData = await handleLogin.checkExistEmail(email);
+    if (userData.errCode !== 0) {
+        res.render('home', {
+            erroCodeR: [1],
+            errorRegister: [
+                userData.errMessage
+            ],
+            name: [req.body.name],
+            phone: [req.body.phone],
+            address: [req.body.address],
+            email: [req.body.email]
+        })
+    } else {
+        const hashPassword = bcrypt.hashSync(req.body.password, SALT_ROUNDS);
+        req.body.password = hashPassword;
+        const newUser = new InforUserModels(req.body);
+        newUser.role = 'user';
+        newUser.save()
+            .then(() => res.render('home', {
+                success: [
+                    "Đăng ký thành công"
+                ]
+            }))
+            .catch(error => res.render('home', {
+                erroCodeR: [1],
+                errorConstructor: [
+                    "Có lỗi trong quá trình khởi tạo vui lòng thử lại"
+                ]
+            }))
+    }
+}
+
 module.exports = {
     checkedLogin: checkedLogin,
-    logout: logout
+    logout: logout,
+    register: register
 }
