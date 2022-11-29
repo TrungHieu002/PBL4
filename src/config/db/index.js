@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
  async function connect(){
      try {
-        await mongoose.connect('mongodb+srv://PBL4:PBL4@pbl4.djabw9g.mongodb.net/PBL4'),{
+        await mongoose.connect(process.env.urlConnectDB),{
          useNewUrlParser : true,
          useUnifielTopology : true,
          useCreateIndex : true,

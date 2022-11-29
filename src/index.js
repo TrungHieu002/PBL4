@@ -7,7 +7,12 @@ const session = require('express-session');
 const store = new session.MemoryStore();
 // const middleware = require('./app/Middlewares/SortMiddlewares')
 const app = express()
-const port = 3000
+
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const port = process.env.PORT
 const route = require('./routes')
 const db = require('./config/db')
 db.connect();
