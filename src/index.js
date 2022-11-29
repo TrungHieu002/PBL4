@@ -56,9 +56,9 @@ app.engine(
             },
             loginHide: (isLoginForm) => {
                 if (isLoginForm.enabled == false) {
-                    return `<button type="button" data-target="#loginModal" data-toggle="modal" data-whatever="@mdo"
+                    return `<button type="button" data-target="#loginModal" data-toggle="modal"
                         class="btn btn-outline-warning btn-login-show">ĐĂNG NHẬP</button>
-                        <button type="button" class="btn btn-outline-danger">ĐĂNG KÝ</button>
+                        <button type="button" data-target="#registerModal"  data-toggle="modal" class="btn btn-outline-danger">ĐĂNG KÝ</button>
                         </div>`;
                 } else {
                     return `<form action="/login/logout" method="get">
