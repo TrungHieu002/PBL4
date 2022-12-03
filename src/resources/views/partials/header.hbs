@@ -138,6 +138,7 @@
       $('[data-toggle="tooltip"]').tooltip()
     })
   })
+  document.forms['form-register'].action = 'register';
 </script>
 {{/each}}
 
@@ -154,7 +155,7 @@
 {{/each}}
 
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
     $('#loginModal').modal('show');
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
